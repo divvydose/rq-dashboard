@@ -161,7 +161,7 @@ var modalConfirm = function(action, cb) {
 
         reload_table();
         $('#refresh-button').click(refresh_table);
-        setInterval(refresh_table, POLL_INTERVAL);
+        window.REFRESH_QUEUE_TABLE_INTERVAL = setInterval(refresh_table, POLL_INTERVAL);
         $('[data-toggle=tooltip]').tooltip();
 
     });
@@ -221,7 +221,7 @@ var modalConfirm = function(action, cb) {
 
         reload_table();
         $('#refresh-button').click(refresh_table);
-        setInterval(refresh_table, POLL_INTERVAL);
+        window.REFRESH_WORKER_TABLE_INTERVAL = setInterval(refresh_table, POLL_INTERVAL);
 
     });
 })($);
@@ -348,7 +348,7 @@ var modalConfirm = function(action, cb) {
 
         reload_table();
         $('#refresh-button').click(refresh_table);
-        setInterval(refresh_table, POLL_INTERVAL);
+        window.REFRESH_JOB_TABLE_INTERVAL = setInterval(refresh_table, POLL_INTERVAL);
 
     });
 
