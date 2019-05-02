@@ -315,6 +315,36 @@ def list_workers():
     return dict(workers=workers)
 
 
+########################################
+# divvyDOSE addition of dashboard.json.
+########################################
+@blueprint.route("/dashboard.json")
+@jsonify
+def get_dashboard_data():
+    failed_queue = get_failed_queue()
+    failed_jobs_by_queue = {}
+    for job in failed_queue.get_jobs():
+        origin = job.origin
+        if origin in failed_jobs_by_queue:
+            failed_jobs_by_queue[origin] = failed_jobs_by_queue[origin] + 1
+        else:
+            failed_jobs_by_queue[origin] = 1
+
+    response = []
+    queues = serialize_queues(sorted(Queue.all()))
+    for queue in queues:
+        response.append(
+            {
+                "enqueued": queue.count,
+                "failed": failed_jobs_by_queue.get(queue.name),
+                "in_progress": queue.get_jobs().length,
+                "name": queue.name,
+            }
+        )
+
+    return response
+
+
 @blueprint.context_processor
 def inject_interval():
     interval = current_app.config.get("RQ_POLL_INTERVAL")
