@@ -331,13 +331,13 @@ def get_dashboard_data():
             failed_jobs_by_queue[origin] = 1
 
     response = []
-    queues = serialize_queues(sorted(Queue.all()))
+    queues = sorted(Queue.all())
     for queue in queues:
         response.append(
             {
                 "enqueued": queue.count,
-                "failed": failed_jobs_by_queue.get(queue.name),
-                "in_progress": queue.get_jobs().length,
+                "failed": failed_jobs_by_queue.get(queue.name, 0),
+                "in_progress": len(queue.get_jobs()),
                 "name": queue.name,
             }
         )
