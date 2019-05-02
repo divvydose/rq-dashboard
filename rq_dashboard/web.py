@@ -342,7 +342,7 @@ def get_dashboard_data():
             }
         )
 
-    return response
+    return dict(queues=response)
 
 
 @blueprint.context_processor
