@@ -1,3 +1,8 @@
+/********************************************
+ * divvyDOSE allowing disabling of reloads.
+ *******************************************/
+var disableReloads = window.location.search.indexOf('disable=reloads') !== -1
+
 var url_for = function(name, param) {
     var url = {{ rq_url_prefix|tojson|safe }};
     if (name == 'rq-instances') {url += 'rq-instances.json'; }
@@ -161,7 +166,9 @@ var modalConfirm = function(action, cb) {
 
         reload_table();
         $('#refresh-button').click(refresh_table);
-        window.REFRESH_QUEUE_TABLE_INTERVAL = setInterval(refresh_table, POLL_INTERVAL);
+        if (!disableReloads) {
+            setInterval(refresh_table, POLL_INTERVAL);
+        }
         $('[data-toggle=tooltip]').tooltip();
 
     });
@@ -221,7 +228,9 @@ var modalConfirm = function(action, cb) {
 
         reload_table();
         $('#refresh-button').click(refresh_table);
-        window.REFRESH_WORKER_TABLE_INTERVAL = setInterval(refresh_table, POLL_INTERVAL);
+        if (!disableReloads) {
+            setInterval(refresh_table, POLL_INTERVAL);
+        }
 
     });
 })($);
@@ -348,7 +357,9 @@ var modalConfirm = function(action, cb) {
 
         reload_table();
         $('#refresh-button').click(refresh_table);
-        window.REFRESH_JOB_TABLE_INTERVAL = setInterval(refresh_table, POLL_INTERVAL);
+        if (!disableReloads) {
+            setInterval(refresh_table, POLL_INTERVAL);
+        }
 
     });
 
